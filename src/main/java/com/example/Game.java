@@ -1,7 +1,5 @@
 package com.example;
 
-import javax.annotation.processing.SupportedSourceVersion;
-import javax.swing.plaf.synth.SynthScrollBarUI;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 
