@@ -2,6 +2,8 @@ package com.example;
 
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 // klasa implemetujaca Runnable wykonywana w osobnym watku start()
 // klasa Game rozszerzona o klase Canvas
@@ -9,16 +11,27 @@ public class Game extends Canvas implements Runnable {
 
     // stale ustalajace wielkosc okna
     public static final int WIDTH = 640;
-    public static final int HEIGHT = WIDTH / 12 * 9;
+    public static final int HEIGHT = 640;
 
     // nowy watek
     private Thread thread;
     // bool do zatrzymania i uruchaminia watku
     private boolean running = false;
 
-    // konstruktor
+    private Handler handler;
+
+
+    // konstruktor tworzy pierwsza pozycje pobiektow
     public Game() {
         new Window(WIDTH, HEIGHT, "Lets build a game", this);
+        handler = new Handler();
+
+        Random r = new Random();
+
+        for(int i= 0; i<50; i++){
+            handler.addObject(new Player(r.nextInt(WIDTH), r.nextInt(HEIGHT),ID.Player));
+            handler.addObject(new PlayerSep(r.nextInt(WIDTH), r.nextInt(HEIGHT),ID.PlayerSep));
+        }
     }
 
     // uruchamiania watku thread
@@ -67,7 +80,8 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
-    public static void tick() {
+    public void tick() {
+        handler.tick();
 
     }
 
@@ -88,6 +102,9 @@ public class Game extends Canvas implements Runnable {
         g.fillRect(0, 0, WIDTH, HEIGHT);
         // disposes of this graphics context and releases any system resources that it is using.
         // a Graphics object cannot be used after disposehas been called.
+
+        handler.render(g);
+
         g.dispose();
         // display the buffer
         bs.show();
