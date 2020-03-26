@@ -10,8 +10,8 @@ public class PlayerSep extends GameObject {
     private int directY = 0;
     private int counter = 0;
 
-    public PlayerSep(int x, int y, ID id) {
-        super(x, y, id);
+    public PlayerSep(int x, int y, ID id, int eat) {
+        super(x, y, id, eat);
 
     }
 
@@ -34,6 +34,7 @@ public class PlayerSep extends GameObject {
     public void tick() {
         int newX;
         int newY;
+        int eat = getEat();
 
         // losujemy counter jezeli jest 0
         if (counter <= 0) {
@@ -69,6 +70,8 @@ public class PlayerSep extends GameObject {
             }
             counter--;
         }
+        eat--;
+        setEat(eat);
 
     }
 

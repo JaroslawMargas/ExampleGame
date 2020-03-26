@@ -6,14 +6,16 @@ import java.awt.*;
 public abstract class GameObject {
     private int x;
     private int y;
+    private int eat;
     protected ID id;
     protected int velX, velY;
 
     //konstruktor
-    public GameObject(int x, int y, ID id) {
+    public GameObject(int x, int y, ID id, int eat) {
         this.setX(x);
         this.setY(y);
         this.id = id;
+        this.eat = eat;
     }
 
 
@@ -34,6 +36,10 @@ public abstract class GameObject {
         this.id = id;
     }
 
+    public void setEat(int eat) {
+        this.eat = eat;
+    }
+
     public int getX() {
         return x;
     }
@@ -44,6 +50,10 @@ public abstract class GameObject {
 
     public ID getId() {
         return id;
+    }
+
+    public int getEat() {
+        return eat;
     }
 
     public void setVelX(int velX) {
