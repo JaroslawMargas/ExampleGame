@@ -4,14 +4,15 @@ import java.awt.*;
 
 //klasa abstrakcyjna Obiekt
 public abstract class GameObject {
-    protected int x, y, counter;
+    private int x;
+    private int y;
     protected ID id;
     protected int velX, velY;
 
     //konstruktor
     public GameObject(int x, int y, ID id) {
-        this.x = x;
-        this.y = y;
+        this.setX(x);
+        this.setY(y);
         this.id = id;
     }
 
@@ -19,6 +20,7 @@ public abstract class GameObject {
     public abstract void tick();
 
     public abstract void render(Graphics g);
+    
 
     public void setX(int x) {
         this.x = x;

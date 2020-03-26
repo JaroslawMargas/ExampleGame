@@ -8,9 +8,9 @@ public class Window extends Canvas {
 
         JFrame frame = new JFrame(title);
 
-//        frame.setPreferredSize(new Dimension(width,height));
+        frame.setPreferredSize(new Dimension(width+20,height+40));
         frame.setSize(new Dimension(width+20,height+40));
-        frame.setMinimumSize(new Dimension(width,height));
+        frame.setMinimumSize(new Dimension(width+20,height+40));
 //        frame.setMaximumSize(new Dimension(width,height));
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -2,7 +2,7 @@ package com.example;
 
 public enum ID {
 
-    Player(),
+    PlayerKiwi(),
     PlayerSep(),
     Enemy();
 }

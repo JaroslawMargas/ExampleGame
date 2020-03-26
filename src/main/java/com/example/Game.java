@@ -3,7 +3,6 @@ package com.example;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 // klasa implemetujaca Runnable wykonywana w osobnym watku start()
 // klasa Game rozszerzona o klase Canvas
@@ -18,19 +17,18 @@ public class Game extends Canvas implements Runnable {
     // bool do zatrzymania i uruchaminia watku
     private boolean running = false;
 
-    private Handler handler;
+    private Handler handler = new Handler();
 
 
     // konstruktor tworzy pierwsza pozycje pobiektow
     public Game() {
         new Window(WIDTH, HEIGHT, "Lets build a game", this);
-        handler = new Handler();
 
         Random r = new Random();
 
         for(int i= 0; i<50; i++){
-            handler.addObject(new Player(r.nextInt(WIDTH), r.nextInt(HEIGHT),ID.Player));
-            handler.addObject(new PlayerSep(r.nextInt(WIDTH), r.nextInt(HEIGHT),ID.PlayerSep));
+            handler.addObject(new PlayerKiwi(r.nextInt(WIDTH-20), r.nextInt(HEIGHT-40),ID.PlayerKiwi));
+            handler.addObject(new PlayerSep(r.nextInt(WIDTH-20), r.nextInt(HEIGHT-40),ID.PlayerSep));
         }
     }
 
@@ -80,6 +78,7 @@ public class Game extends Canvas implements Runnable {
         stop();
     }
 
+
     public void tick() {
         handler.tick();
 
@@ -99,7 +98,7 @@ public class Game extends Canvas implements Runnable {
         // color background
         g.setColor(Color.green);
         // fill rectangle
-        g.fillRect(0, 0, WIDTH, HEIGHT);
+        g.fillRect(2, 0, WIDTH, HEIGHT);
         // disposes of this graphics context and releases any system resources that it is using.
         // a Graphics object cannot be used after disposehas been called.
 
@@ -108,6 +107,8 @@ public class Game extends Canvas implements Runnable {
         g.dispose();
         // display the buffer
         bs.show();
+
+        handler.checkAttack();
 
     }
 
