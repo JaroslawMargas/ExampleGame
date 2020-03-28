@@ -1,35 +1,15 @@
 package com.example;
 
 import java.awt.*;
-import java.util.Random;
 
 public class PlayerKiwi extends GameObject {
 
-    Random random;
     private int moveCounter = 0;
     private int tmpEat;
-
 
     public PlayerKiwi(int x, int y, int directX, int directY, ID id, int eat, int age) {
         super(x, y, directX, directY, id, eat, age);
         setEat(randomEat());
-
-    }
-
-    // wylosuj ile krokow zrobi obiekt
-    private int randomMoveCounter() {
-        random = new Random();
-        return random.nextInt(50);
-    }
-
-    // wylosuj kierunek(-1,1)
-    public static int randomMove() {
-        Random random;
-        random = new Random();
-        int result = random.nextInt(3);
-        if (result == 2)
-            return (-1);
-        return result;
     }
 
     @Override
@@ -104,6 +84,5 @@ public class PlayerKiwi extends GameObject {
             g.setColor(Color.white);
         }
         g.fillRect(getX(), getY(), 5, 5);
-
     }
 }

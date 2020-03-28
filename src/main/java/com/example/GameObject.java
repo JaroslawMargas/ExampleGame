@@ -90,4 +90,19 @@ public abstract class GameObject {
         return age;
     }
 
+    // wylosuj ile krokow zrobi obiekt
+    public int randomMoveCounter() {
+        Random random = new Random();
+        return random.nextInt(50);
+    }
+
+    // wylosuj kierunek(-1,1)
+    public static int randomMove() {
+        Random random;
+        random = new Random();
+        int result = random.nextInt(3);
+        if (result == 2)
+            return (-1);
+        return result;
+    }
 }

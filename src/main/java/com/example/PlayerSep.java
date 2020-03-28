@@ -1,31 +1,13 @@
 package com.example;
 
 import java.awt.*;
-import java.util.Random;
 
 public class PlayerSep extends GameObject {
 
-    Random random;
-    private int counter = 0;
+    private int moveCounter = 0;
 
     public PlayerSep(int x, int y, int directX, int directY, ID id, int eat, int age) {
         super(x, y, directX, directY, id, eat, age);
-
-    }
-
-    // wylosuj ile krokow zrobi obiekt
-    private int randomMoveCounter() {
-        random = new Random();
-        return random.nextInt(25);
-    }
-
-    // wylosuj kierunek(-1,1)
-    private int randomMove() {
-        random = new Random();
-        int result = random.nextInt(3);
-        if (result == 2)
-            return (-1);
-        return result;
     }
 
     @Override
@@ -34,10 +16,10 @@ public class PlayerSep extends GameObject {
         int newY;
 
         // losujemy counter jezeli jest 0
-        if (counter <= 0) {
+        if (moveCounter <= 0) {
 
             //wylicz ile ruchow zrobi obiekt
-            counter = randomMoveCounter();
+            moveCounter = randomMoveCounter();
 
             // wylicz losowy kierunek
             setDirectX(randomMove());
@@ -45,26 +27,26 @@ public class PlayerSep extends GameObject {
         }
 
         // jesli counter > 0 wtedy wykonujemy ruch i zmniejszamy counter
-        if (counter > 0) {
+        if (moveCounter > 0) {
             newX = getX() + getDirectX();
             newY = getY() + getDirectY();
             if (newX <= 5) {
-                setX(getX() + 1);
+                setX(getX() + Math.abs(getDirectX()));
             } else {
                 setX(newX);
             }
             if (newY <= 5) {
-                setY(getY() + 1);
+                setY(getY() + Math.abs(getDirectY()));
             } else {
                 setY(newY);
             }
             if (newX >= 630) {
-                setX(getX() - 1);
+                setX(getX() - Math.abs(getDirectX()));
             }
             if (newY >= 630) {
-                setY(getY() - 1);
+                setY(getY() - Math.abs(getDirectY()));
             }
-            counter--;
+            moveCounter--;
         }
     }
 
@@ -72,6 +54,5 @@ public class PlayerSep extends GameObject {
     public void render(Graphics g) {
         g.setColor(Color.red);
         g.fillRect(getX(), getY(), 5, 5);
-
     }
 }
