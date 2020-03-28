@@ -11,14 +11,13 @@ public class Window extends Canvas {
         frame.setPreferredSize(new Dimension(width+20,height+40));
         frame.setSize(new Dimension(width+20,height+40));
         frame.setMinimumSize(new Dimension(width+20,height+40));
-//        frame.setMaximumSize(new Dimension(width,height));
+        frame.setMaximumSize(new Dimension(width+20,height+40));
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(true);
+        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.add(game);
         frame.setVisible(true);
         game.start();
-
     }
 }

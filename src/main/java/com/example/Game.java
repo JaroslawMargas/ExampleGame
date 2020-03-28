@@ -12,7 +12,7 @@ import java.util.Random;
 // klasa Game rozszerzona o klase Canvas
 public class Game extends Canvas implements Runnable {
 
-    // stale ustalajace wielkosc okna
+    // stale wielkosc okna
     public static final int WIDTH = 640;
     public static final int HEIGHT = 640;
 
@@ -24,11 +24,11 @@ public class Game extends Canvas implements Runnable {
     private Handler handler = new Handler();
 
 
-    // konstruktor tworzy pierwsza pozycje pobiektow
+    // konstruktor tworzy pierwsza pozycje obiektow
     public Game() throws IOException {
         new Window(WIDTH, HEIGHT, "Lets build a game", this);
 
-        // get image for grass
+        // zmienne trawy
         BufferedImage imgGrass = ImageIO.read(new File("grass.gif"));
         int wGrass = imgGrass.getWidth(null);
         int hGrass = imgGrass.getHeight(null);
@@ -36,19 +36,19 @@ public class Game extends Canvas implements Runnable {
         // instancja planszy losowa
         Random r = new Random();
 
-        // build Object for board
+        // buduj obiekty planszy
         for (int i = 0; i < 20; i++) {
             handler.addObjectBoard(new Grass(r.nextInt(WIDTH - 20), r.nextInt(HEIGHT - 40), ID.Grass,
                     imgGrass, wGrass, hGrass));
         }
 
-        //build object player Kiwi
+        // buduj obiekty player Kiwi
         for (int i = 0; i < 20; i++) {
             handler.addObject(new PlayerKiwi(r.nextInt(WIDTH - 20), r.nextInt(HEIGHT - 40),
                     0, 0, ID.PlayerKiwi, 0, 0));
         }
 
-        //build object player Sep
+        // buduj obiekty player Kiwi
         for (int i = 0; i < 20; i++) {
             handler.addObject(new PlayerSep(r.nextInt(WIDTH - 20), r.nextInt(HEIGHT - 40),
                     0, 0, ID.PlayerKiwi, 0, 0));
@@ -141,8 +141,6 @@ public class Game extends Canvas implements Runnable {
     }
 
     public static void main(String[] args) throws IOException {
-        // tworzymy w main instancje klasy Game.
         new Game();
-
     }
 }

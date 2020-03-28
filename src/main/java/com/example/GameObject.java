@@ -3,7 +3,6 @@ package com.example;
 import java.awt.*;
 import java.util.Random;
 
-//klasa abstrakcyjna Obiekt
 public abstract class GameObject {
     private int x;
     private int y;
@@ -13,7 +12,6 @@ public abstract class GameObject {
     private int eat;
     private int age;
 
-    //konstruktor
     public GameObject(int x, int y,int directX,int directY, ID id, int eat, int age) {
         this.x = x;
         this.y = y;
@@ -42,6 +40,7 @@ public abstract class GameObject {
     public void setY(int y) {
         this.y = y;
     }
+
     public void setDirectX(int directX) {
         this.directX = directX;
     }

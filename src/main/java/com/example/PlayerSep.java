@@ -40,10 +40,10 @@ public class PlayerSep extends GameObject {
             } else {
                 setY(newY);
             }
-            if (newX >= 630) {
+            if (newX >= Game.WIDTH-10) {
                 setX(getX() - Math.abs(getDirectX()));
             }
-            if (newY >= 630) {
+            if (newY >= Game.HEIGHT-10) {
                 setY(getY() - Math.abs(getDirectY()));
             }
             moveCounter--;
