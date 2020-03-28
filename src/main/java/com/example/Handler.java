@@ -1,153 +1,131 @@
 package com.example;
 
 import java.awt.*;
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.LinkedList;
 
 
 public class Handler {
 
+    int maxObjects = 100;
+
     //lista przechowywujaca obiekty
-    LinkedList<GameObject> object = new LinkedList<>();
-    LinkedList<GameObject> sepList;
-    LinkedList<GameObject> kiwiList;
+    LinkedList<GameObject> playerObjects = new LinkedList<>();
+    LinkedList<GameBoard> boardObjects = new LinkedList<>();
 
     //ustawianie parametrow kazdego obiektu
     public void tick() {
-        for (int i = 0; i < object.size(); i++) {
-            GameObject tempObject = object.get(i);
+        for (int i = 0; i < playerObjects.size(); i++) {
+            GameObject tempObject = playerObjects.get(i);
 
             tempObject.tick();
         }
+
+        for (int i = 0; i < boardObjects.size(); i++) {
+            GameBoard tmpGameBoard = boardObjects.get(i);
+
+            tmpGameBoard.tick();
+        }
     }
 
-    public void checkAttack() {
+    public void livePlayers() {
         LinkedList<GameObject> toRemove = new LinkedList<>();
 
-        for (int i = 0; i < object.size(); i++) {
-            for (int k = 0; k < object.size(); k++) {
-                if (object.get(i) != object.get(k)) {
+        for (int i = 0; i < playerObjects.size(); i++) {
+
+            // dodaj kiwi jesli napotkal trawe zeby nie umarl
+            if (playerObjects.get(i).getId() == ID.PlayerKiwi) {
+                GameObject tempObject = playerObjects.get(i);
+
+                for (int j = 0; j < boardObjects.size(); j++) {
+                    GameBoard tempBoard = boardObjects.get(j);
+                    if (tempObject.getX() == tempBoard.getX()) {
+                        if (tempObject.getY() == tempBoard.getY()) {
+                            int tmpEat = tempObject.getEat();
+                            System.out.println("EAT " + tempObject.getId());
+                            tempObject.setEat(tmpEat + 1000);
+                            System.out.println("Remains Eat " + tempObject.getEat());
+                        }
+                    }
+                }
+            }
+
+            for (int j = 0; j < playerObjects.size(); j++) {
+                if (playerObjects.get(i) != playerObjects.get(j)) {
 
                     // relacja kiwi - sep , kiwi joung - sep
-                    if (object.get(i).getId() == ID.PlayerKiwi || object.get(i).getId() == ID.PlayerKiwiYoung ||object.get(i).getId() == ID.PlayerKiwiKill) {
+                    if (playerObjects.get(i).getId() == ID.PlayerKiwi || playerObjects.get(i).getId() == ID.PlayerKiwiYoung ||
+                            playerObjects.get(i).getId() == ID.PlayerKiwiKill) {
+
                         // multiplication kiwi - kiwi
-                        if (object.get(i).getId() == ID.PlayerKiwi) {
-                            if (object.get(k).getId() == ID.PlayerKiwi) {
-                                if (object.get(i).getX() == object.get(k).getX()) {
-                                    if (object.get(i).getY() == object.get(k).getY()) {
-                                        PlayerKiwi tmp = new PlayerKiwi(object.get(i).getX() + PlayerKiwi.randomMove(),
-                                                object.get(i).getY() + PlayerKiwi.randomMove(), ID.PlayerKiwiYoung, 0);
-                                        addObject(tmp);
-                                        System.out.println("New " + tmp.getId());
-                                        System.out.println("Remains " + object.size());
-                                        break;
+                        if (playerObjects.size() <= maxObjects) {
+                            if (playerObjects.get(i).getId() == ID.PlayerKiwi) {
+                                if (playerObjects.get(j).getId() == ID.PlayerKiwi) {
+                                    if (playerObjects.get(i).getX() == playerObjects.get(j).getX()) {
+                                        if (playerObjects.get(i).getY() == playerObjects.get(j).getY()) {
+                                            PlayerKiwi tmp = new PlayerKiwi(playerObjects.get(i).getX() +
+                                                    PlayerKiwi.randomMove(),
+                                                    playerObjects.get(i).getY() + PlayerKiwi.randomMove(),
+                                                    ID.PlayerKiwiYoung, 0);
+                                            addObject(tmp);
+                                            System.out.println("New " + tmp.getId());
+                                            System.out.println("Remains " + playerObjects.size());
+                                            break;
+                                        }
                                     }
-
                                 }
-
                             }
                         }
                         // sep attack kiwi
-                        if (object.get(k).getId() == ID.PlayerSep) {
-                            if (object.get(i).getX() == object.get(k).getX()) {
-                                if (object.get(i).getY() == object.get(k).getY()) {
-                                    System.out.println("Removed " + object.get(i).id);
-                                    System.out.println("Remains " + object.size());
-                                    toRemove.add(object.get(i));
+                        if (playerObjects.get(j).getId() == ID.PlayerSep) {
+                            if (playerObjects.get(i).getX() == playerObjects.get(j).getX()) {
+                                if (playerObjects.get(i).getY() == playerObjects.get(j).getY()) {
+                                    System.out.println("Removed " + playerObjects.get(i).id);
+                                    System.out.println("Remains " + playerObjects.size());
+                                    toRemove.add(playerObjects.get(i));
                                 }
                             }
-
-
                         }
-                        if(object.get(i).getId() == ID.PlayerKiwiKill){
-                            toRemove.add(object.get(i));
+                        if (playerObjects.get(i).getId() == ID.PlayerKiwiKill) {
+                            toRemove.add(playerObjects.get(i));
                         }
                     }
                 }
             }
         }
-        for(GameObject ob : toRemove){
+        for (GameObject ob : toRemove) {
             removeObject(ob);
         }
-
-
-
-
     }
-//        sepList = new LinkedList<>();
-//        for (int i = 0; i < object.size(); i++) {
-//            GameObject tempObject = object.get(i);
-//            if (tempObject.id == ID.PlayerSep) {
-//                sepList.add(tempObject);
-//            }
-//        }
-//        kiwiList = new LinkedList<>();
-//        for (int i = 0; i < object.size(); i++) {
-//            GameObject tempObject = object.get(i);
-//            if (tempObject.id == ID.PlayerKiwi) {
-//                kiwiList.add(tempObject);
-//            }
-//        }
-//
-//
-//        for (int i = 0; i < object.size(); i++) {
-//            // rozmnazanie kiwi
-//            for (int k = 0; k < kiwiList.size(); k++) {
-//                // pomin obiekt Kiwi z Lista kiwi ten sam
-//                if (!object.get(i).equals(kiwiList.get(k))) {
-//                    // jezeli x i y te same
-//                    if (object.get(i).getX() == kiwiList.get(k).getX()) {
-//                        if (object.get(i).getY() == kiwiList.get(k).getY()) {
-//                            // jezeli jest Kiwi
-//                            if (object.get(i).getId() == ID.PlayerKiwi) {
-//                                PlayerKiwi tmp = new PlayerKiwi(object.get(i).getX() + PlayerKiwi.randomMove(),
-//                                        object.get(i).getY() + PlayerKiwi.randomMove(), ID.PlayerKiwiYoung, 0);
-//                                addObject(tmp);
-//                                System.out.println("New " + tmp.getId());
-//                                break;
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//
-//            // atak Sepa na Kiwi
-//            for (int j = 0; j < sepList.size(); j++) {
-//                if (object.get(i).getX() == sepList.get(j).getX()) {
-//                    if (object.get(i).getY() == sepList.get(j).getY()) {
-//                        if (object.get(i).getId() == ID.PlayerKiwi) {
-//                            System.out.println("Removed " + object.get(i).id);
-//                            System.out.println("Remains " + object.size());
-//                            removeObject(object.get(i));
-//                        }
-//                        if(object.get(i).getId() == ID.PlayerSep){
-//                            int tmpEat = object.get(i).getEat();
-//
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-
 
     //renderowanie obiektu
-    public void render(Graphics g) {
-        for (int i = 0; i < object.size(); i++) {
-            GameObject tempObject = object.get(i);
+    public void render(Graphics g) throws IOException {
+        for (int i = 0; i < playerObjects.size(); i++) {
+            GameObject tempObject = playerObjects.get(i);
 
             tempObject.render(g);
         }
+        for (int i = 0; i < boardObjects.size(); i++) {
+            GameBoard tmpGameBoard = boardObjects.get(i);
 
+            tmpGameBoard.render(g);
+        }
     }
 
 
     public void addObject(GameObject object) {
-        this.object.add(object);
-
+        this.playerObjects.add(object);
     }
 
     public void removeObject(GameObject object) {
-        this.object.remove(object);
+        this.playerObjects.remove(object);
+    }
+
+    public void addObjectBoard(GameBoard object) {
+        this.boardObjects.add(object);
+    }
+
+    public void removeObjectBoard(GameBoard object) {
+        this.boardObjects.remove(object);
     }
 }

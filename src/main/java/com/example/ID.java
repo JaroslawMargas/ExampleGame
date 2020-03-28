@@ -7,5 +7,5 @@ public enum ID {
     PlayerKiwiToKill(),
     PlayerKiwiKill(),
     PlayerSep(),
-    Enemy();
+    Grass(),
 }

@@ -1,7 +1,11 @@
 package com.example;
 
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 import java.util.Random;
 
 // klasa implemetujaca Runnable wykonywana w osobnym watku start()
@@ -21,16 +25,33 @@ public class Game extends Canvas implements Runnable {
 
 
     // konstruktor tworzy pierwsza pozycje pobiektow
-    public Game() {
+    public Game() throws IOException {
         new Window(WIDTH, HEIGHT, "Lets build a game", this);
 
+        // get image for grass
+        BufferedImage imgGrass = ImageIO.read(new File("grass.gif"));
+        int wGrass = imgGrass.getWidth(null);
+        int hGrass = imgGrass.getHeight(null);
+
+        // instancja planszy losowa
         Random r = new Random();
 
-        for(int i= 0; i<100; i++){
-            handler.addObject(new PlayerKiwi(r.nextInt(WIDTH-20), r.nextInt(HEIGHT-40),ID.PlayerKiwi,0));
+        // build Object for board
+        for (int i = 0 ; i<20; i++){
+            handler.addObjectBoard(new Grass(r.nextInt(WIDTH-20),r.nextInt(HEIGHT-40),ID.Grass,
+                    imgGrass,wGrass,hGrass));
         }
-        for(int i= 0; i<100; i++){
-            handler.addObject(new PlayerSep(r.nextInt(WIDTH-20), r.nextInt(HEIGHT-40),ID.PlayerSep,1000));
+
+        //build object player Kiwi
+        for(int i= 0; i<30; i++){
+            handler.addObject(new PlayerKiwi(r.nextInt(WIDTH-20), r.nextInt(HEIGHT-40),ID.PlayerKiwi,
+                    1000));
+        }
+
+        //build object player Sep
+        for(int i= 0; i<20; i++){
+            handler.addObject(new PlayerSep(r.nextInt(WIDTH-20), r.nextInt(HEIGHT-40),ID.PlayerSep,
+                    0));
         }
     }
 
@@ -67,8 +88,13 @@ public class Game extends Canvas implements Runnable {
                 tick();
                 delta--;
             }
-            if (running)
-                render();
+            if (running) {
+                try {
+                    render();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             frames++;
 
             if (System.currentTimeMillis() - timer > 1000) {
@@ -87,7 +113,7 @@ public class Game extends Canvas implements Runnable {
     }
 
     // funkcja renderujca i ilosc bufferow (3) bedzie tworzonych do renderowania
-    public void render() {
+    public void render() throws IOException {
         // Create a general double-buffering strategy
         BufferStrategy bs = this.getBufferStrategy();
         if (bs == null) {
@@ -98,9 +124,9 @@ public class Game extends Canvas implements Runnable {
         // graphic g = creates a graphics context for the drawing buffer.
         Graphics g = bs.getDrawGraphics();
         // color background
-        g.setColor(Color.green);
-        // fill rectangle
+        g.setColor(Color.YELLOW);
         g.fillRect(2, 0, WIDTH, HEIGHT);
+
         // disposes of this graphics context and releases any system resources that it is using.
         // a Graphics object cannot be used after disposehas been called.
 
@@ -110,11 +136,11 @@ public class Game extends Canvas implements Runnable {
         // display the buffer
         bs.show();
 
-        handler.checkAttack();
+        handler.livePlayers();
 
     }
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // tworzymy w main instancje klasy Game.
         new Game();
 

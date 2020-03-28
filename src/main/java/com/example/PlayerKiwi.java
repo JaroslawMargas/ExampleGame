@@ -10,24 +10,25 @@ public class PlayerKiwi extends GameObject {
     private int directY = 0;
     private int moveCounter = 0;
     private int grow = 0;
-    private int age = randomAge();
-    private int kill = 300;
+    private int eat;
+
 
     public PlayerKiwi(int x, int y, ID id, int eat) {
         super(x, y, id, eat);
+        setEat(randomEat());
 
     }
 
-    private int randomAge(){
+    private int randomEat(){
         random  = new Random();
-        int ageMin = 1000;
-        int ageMax = 10_000;
-        return random.nextInt((ageMax - ageMin) + 1) + ageMin;
+        int eatMin = 10_000;
+        int eatMax = 100_000;
+        return random.nextInt((eatMax - eatMin) + 1) + eatMin;
     }
     // wylosuj ile krokow zrobi obiekt
     private int randomMoveCounter() {
         random = new Random();
-        return random.nextInt(30);
+        return random.nextInt(50);
     }
 
     // wylosuj kierunek(-1,1)
@@ -44,7 +45,6 @@ public class PlayerKiwi extends GameObject {
     public void tick() {
         int newX;
         int newY;
-        ID tmpId;
 
         if (getId() != ID.PlayerKiwiToKill) {
 
@@ -81,7 +81,8 @@ public class PlayerKiwi extends GameObject {
                 }
                 moveCounter--;
             }
-            age--;
+            int tmpEat = getEat();
+            setEat(--tmpEat);
         }
         if (getId() == ID.PlayerKiwiYoung) {
             grow++;
@@ -90,7 +91,7 @@ public class PlayerKiwi extends GameObject {
                 System.out.println("Kiwi Grow up and can do multiplication");
             }
         } else {
-            if (age <= 500) {
+            if (getEat() <= 200) {
                 setId(ID.PlayerKiwiToKill);
             }
         }
@@ -102,8 +103,8 @@ public class PlayerKiwi extends GameObject {
             g.setColor(Color.blue);
         } else if (getId() == ID.PlayerKiwiToKill) {
             g.setColor(Color.BLACK);
-            kill--;
-            if(kill == 0){
+            eat--;
+            if(eat == 0){
                 setId(ID.PlayerKiwiKill);
             }
         } else {
