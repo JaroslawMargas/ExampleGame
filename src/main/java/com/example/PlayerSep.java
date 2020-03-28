@@ -6,12 +6,10 @@ import java.util.Random;
 public class PlayerSep extends GameObject {
 
     Random random;
-    private int directX = 0;
-    private int directY = 0;
     private int counter = 0;
 
-    public PlayerSep(int x, int y, ID id, int eat) {
-        super(x, y, id, eat);
+    public PlayerSep(int x, int y, int directX, int directY, ID id, int eat, int age) {
+        super(x, y, directX, directY, id, eat, age);
 
     }
 
@@ -34,7 +32,6 @@ public class PlayerSep extends GameObject {
     public void tick() {
         int newX;
         int newY;
-        int eat = getEat();
 
         // losujemy counter jezeli jest 0
         if (counter <= 0) {
@@ -43,23 +40,22 @@ public class PlayerSep extends GameObject {
             counter = randomMoveCounter();
 
             // wylicz losowy kierunek
-            directX = randomMove();
-            directY = randomMove();
+            setDirectX(randomMove());
+            setDirectY(randomMove());
         }
 
         // jesli counter > 0 wtedy wykonujemy ruch i zmniejszamy counter
         if (counter > 0) {
-            newX = getX() + directX;
-            newY = getY() + directY;
+            newX = getX() + getDirectX();
+            newY = getY() + getDirectY();
             if (newX <= 5) {
                 setX(getX() + 1);
-            }else {
+            } else {
                 setX(newX);
             }
             if (newY <= 5) {
                 setY(getY() + 1);
-            }
-            else {
+            } else {
                 setY(newY);
             }
             if (newX >= 630) {
@@ -70,9 +66,6 @@ public class PlayerSep extends GameObject {
             }
             counter--;
         }
-        eat--;
-        setEat(eat);
-
     }
 
     @Override

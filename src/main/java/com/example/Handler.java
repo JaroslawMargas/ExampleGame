@@ -66,7 +66,7 @@ public class Handler {
                                             PlayerKiwi tmp = new PlayerKiwi(playerObjects.get(i).getX() +
                                                     PlayerKiwi.randomMove(),
                                                     playerObjects.get(i).getY() + PlayerKiwi.randomMove(),
-                                                    ID.PlayerKiwiYoung, 0);
+                                                    0,0, ID.PlayerKiwiYoung, 0,0);
                                             addObject(tmp);
                                             System.out.println("New " + tmp.getId());
                                             System.out.println("Remains " + playerObjects.size());

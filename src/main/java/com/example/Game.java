@@ -37,21 +37,21 @@ public class Game extends Canvas implements Runnable {
         Random r = new Random();
 
         // build Object for board
-        for (int i = 0 ; i<20; i++){
-            handler.addObjectBoard(new Grass(r.nextInt(WIDTH-20),r.nextInt(HEIGHT-40),ID.Grass,
-                    imgGrass,wGrass,hGrass));
+        for (int i = 0; i < 20; i++) {
+            handler.addObjectBoard(new Grass(r.nextInt(WIDTH - 20), r.nextInt(HEIGHT - 40), ID.Grass,
+                    imgGrass, wGrass, hGrass));
         }
 
         //build object player Kiwi
-        for(int i= 0; i<30; i++){
-            handler.addObject(new PlayerKiwi(r.nextInt(WIDTH-20), r.nextInt(HEIGHT-40),ID.PlayerKiwi,
-                    1000));
+        for (int i = 0; i < 20; i++) {
+            handler.addObject(new PlayerKiwi(r.nextInt(WIDTH - 20), r.nextInt(HEIGHT - 40),
+                    0, 0, ID.PlayerKiwi, 0, 0));
         }
 
         //build object player Sep
-        for(int i= 0; i<20; i++){
-            handler.addObject(new PlayerSep(r.nextInt(WIDTH-20), r.nextInt(HEIGHT-40),ID.PlayerSep,
-                    0));
+        for (int i = 0; i < 20; i++) {
+            handler.addObject(new PlayerSep(r.nextInt(WIDTH - 20), r.nextInt(HEIGHT - 40),
+                    0, 0, ID.PlayerKiwi, 0, 0));
         }
     }
 

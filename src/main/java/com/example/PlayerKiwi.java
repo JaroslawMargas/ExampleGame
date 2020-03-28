@@ -6,25 +6,16 @@ import java.util.Random;
 public class PlayerKiwi extends GameObject {
 
     Random random;
-    private int directX = 0;
-    private int directY = 0;
     private int moveCounter = 0;
-    private int grow = 0;
-    private int eat;
+    private int tmpEat;
 
 
-    public PlayerKiwi(int x, int y, ID id, int eat) {
-        super(x, y, id, eat);
+    public PlayerKiwi(int x, int y, int directX, int directY, ID id, int eat, int age) {
+        super(x, y, directX, directY, id, eat, age);
         setEat(randomEat());
 
     }
 
-    private int randomEat(){
-        random  = new Random();
-        int eatMin = 10_000;
-        int eatMax = 100_000;
-        return random.nextInt((eatMax - eatMin) + 1) + eatMin;
-    }
     // wylosuj ile krokow zrobi obiekt
     private int randomMoveCounter() {
         random = new Random();
@@ -55,43 +46,44 @@ public class PlayerKiwi extends GameObject {
                 moveCounter = randomMoveCounter();
 
                 // wylicz losowy kierunek
-                directX = randomMove();
-                directY = randomMove();
+                setDirectX(randomMove());
+                setDirectY(randomMove());
             }
 
             // jesli counter > 0 wtedy wykonujemy ruch i zmniejszamy counter
             if (moveCounter > 0) {
-                newX = getX() + directX;
-                newY = getY() + directY;
+                newX = getX() + getDirectX();
+                newY = getY() + getDirectY();
                 if (newX <= 5) {
-                    setX(getX() + Math.abs(directX));
+                    setX(getX() + Math.abs(getDirectX()));
                 } else {
                     setX(newX);
                 }
                 if (newY <= 5) {
-                    setY(getY() + Math.abs(directY));
+                    setY(getY() + Math.abs(getDirectY()));
                 } else {
                     setY(newY);
                 }
                 if (newX >= 630) {
-                    setX(getX() - Math.abs(directX));
+                    setX(getX() - Math.abs(getDirectX()));
                 }
                 if (newY >= 630) {
-                    setY(getY() - Math.abs(directY));
+                    setY(getY() - Math.abs(getDirectY()));
                 }
                 moveCounter--;
             }
-            int tmpEat = getEat();
+            tmpEat = getEat();
             setEat(--tmpEat);
         }
         if (getId() == ID.PlayerKiwiYoung) {
-            grow++;
-            if (grow == 500) {
+            int tmpAge = getAge();
+            setAge(++tmpAge);
+            if (getAge() >= 500) {
                 setId(ID.PlayerKiwi);
                 System.out.println("Kiwi Grow up and can do multiplication");
             }
         } else {
-            if (getEat() <= 200) {
+            if (getEat() <= 1000) {
                 setId(ID.PlayerKiwiToKill);
             }
         }
@@ -103,8 +95,9 @@ public class PlayerKiwi extends GameObject {
             g.setColor(Color.blue);
         } else if (getId() == ID.PlayerKiwiToKill) {
             g.setColor(Color.BLACK);
-            eat--;
-            if(eat == 0){
+            tmpEat = getEat();
+            setEat(--tmpEat);
+            if (getEat() == 0) {
                 setId(ID.PlayerKiwiKill);
             }
         } else {
