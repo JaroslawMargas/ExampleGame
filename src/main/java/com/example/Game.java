@@ -50,7 +50,7 @@ public class Game extends Canvas implements Runnable {
                     0, 0, ID.PlayerKiwi, 0, 0));
         }
 
-        // buduj obiekty player Kiwi
+        // buduj obiekty player Sep
         for (int i = 0; i < 20; i++) {
             handler.addObject(new PlayerSep(r.nextInt(WIDTH - 20), r.nextInt(HEIGHT - 40),
                     0, 0, ID.PlayerSep, 0, 0));
