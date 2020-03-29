@@ -12,6 +12,8 @@ import java.util.Random;
 // klasa Game rozszerzona o klase Canvas
 public class Game extends Canvas implements Runnable {
 
+    // test branch
+
     // stale wielkosc okna
     public static final int WIDTH = 640;
     public static final int HEIGHT = 640;
