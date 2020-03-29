@@ -33,7 +33,7 @@ public class Handler {
 
         for (int i = 0; i < playerObjects.size(); i++) {
 
-            // dodaj kiwi jesli napotkal trawe zeby nie umarl
+            // dodaj eat do kiwi jesli napotkal trawe zeby nie umarl
             if (playerObjects.get(i).getId() == ID.PlayerKiwi) {
                 GameObject tempObject = playerObjects.get(i);
 
@@ -86,6 +86,8 @@ public class Handler {
                                 }
                             }
                         }
+
+                        // dodaj kiwi kill do usuniecia
                         if (playerObjects.get(i).getId() == ID.PlayerKiwiKill) {
                             toRemove.add(playerObjects.get(i));
                         }
