@@ -21,11 +21,13 @@ public class Handler {
             tempObject.tick();
         }
 
-        for (int i = 0; i < boardObjects.size(); i++) {
-            GameBoard tmpGameBoard = boardObjects.get(i);
-
-            tmpGameBoard.tick();
-        }
+        // for now there is no need tick board objects.
+        // Grass can increase or decrease later
+//        for (int i = 0; i < boardObjects.size(); i++) {
+//            GameBoard tmpGameBoard = boardObjects.get(i);
+//
+//            tmpGameBoard.tick();
+//        }
     }
 
     public void livePlayers() {
