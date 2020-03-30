@@ -50,7 +50,7 @@ public class Handler {
                 }
             }
 
-            for (int j = 0; j < playerObjects.size(); j++) {
+            for (int j = i+1; j < playerObjects.size(); j++) {
                 if (playerObjects.get(i) != playerObjects.get(j)) {
 
                     // relacja kiwi - sep , kiwi joung - sep
