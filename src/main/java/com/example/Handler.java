@@ -21,11 +21,13 @@ public class Handler {
             tempObject.tick();
         }
 
-        for (int i = 0; i < boardObjects.size(); i++) {
-            GameBoard tmpGameBoard = boardObjects.get(i);
-
-            tmpGameBoard.tick();
-        }
+        // for now there is no need tick board objects.
+        // Grass can increase or decrease later
+//        for (int i = 0; i < boardObjects.size(); i++) {
+//            GameBoard tmpGameBoard = boardObjects.get(i);
+//
+//            tmpGameBoard.tick();
+//        }
     }
 
     public void livePlayers() {
@@ -33,7 +35,7 @@ public class Handler {
 
         for (int i = 0; i < playerObjects.size(); i++) {
 
-            // dodaj kiwi jesli napotkal trawe zeby nie umarl
+            // dodaj eat do kiwi jesli napotkal trawe zeby nie umarl
             if (playerObjects.get(i).getId() == ID.PlayerKiwi) {
                 GameObject tempObject = playerObjects.get(i);
 
@@ -50,7 +52,7 @@ public class Handler {
                 }
             }
 
-            for (int j = 0; j < playerObjects.size(); j++) {
+            for (int j = i+1; j < playerObjects.size(); j++) {
                 if (playerObjects.get(i) != playerObjects.get(j)) {
 
                     // relacja kiwi - sep , kiwi joung - sep
@@ -86,6 +88,8 @@ public class Handler {
                                 }
                             }
                         }
+
+                        // dodaj kiwi kill do usuniecia
                         if (playerObjects.get(i).getId() == ID.PlayerKiwiKill) {
                             toRemove.add(playerObjects.get(i));
                         }
